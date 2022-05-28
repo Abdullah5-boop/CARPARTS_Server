@@ -162,7 +162,13 @@ async function run() {
             const result = await cursor.toArray()
             res.send(result)
         })
-
+        app.post('/addpost',async(req,res)=>{
+            const data=req.body
+            const result=await ServiceCollection.insertOne(data)
+            console.log(result)
+            res.send(result)
+            
+        })
 
 
         app.put('/order', async (req, res) => {
