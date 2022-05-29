@@ -27,7 +27,7 @@ async function run() {
         app.put('/register', async (req, res) => {
             const email = req.body.email;
             const type = req.body.type;
-            console.log(email)
+            console.log("this is register",email)
             const filter = { email }
             const option = { upsert: true }
             const updatedoc = {
@@ -43,7 +43,7 @@ async function run() {
         app.put('/registerstorage', async (req, res) => {
             const email = req.body.email;
             const type = req.body.type;
-            console.log(email)
+            console.log("this is registerstorage",email)
             // const filter = { email }
             // const option = { upsert: true }
             // const updatedoc = {
@@ -63,16 +63,16 @@ async function run() {
                 res.send({ success: true })
             }
             else {
-                console.log({ success:false})
+                console.log({ success: false })
                 res.send({ success: false })
             }
-            console.log("/registerstorage",result.email)
+            console.log("/registerstorage", result.email)
         })
         app.put('/postregisterstorage', async (req, res) => {
 
             const email = req.body.email;
             const type = req.body.type;
-            console.log(email)
+            console.log("this is registerstrage put",email)
             const filter = { email }
             const option = { upsert: true }
             const updatedoc = {
@@ -81,7 +81,7 @@ async function run() {
                     type: type
                 }
             }
-            const result = await FirebaseloginStorageCollection.updateOne(filter, updatedoc,option)
+            const result = await FirebaseloginStorageCollection.updateOne(filter, updatedoc, option)
             res.send(result)
 
         })
@@ -156,18 +156,18 @@ async function run() {
         })
         app.get('/review/:email', async (req, res) => {
             const email = req.params.email
-            console.log(email)
+            console.log("review ",email)
             const querry = { email }
             const cursor = ReviewListCollection.find(querry)
             const result = await cursor.toArray()
             res.send(result)
         })
-        app.post('/addpost',async(req,res)=>{
-            const data=req.body
-            const result=await ServiceCollection.insertOne(data)
+        app.post('/addpost', async (req, res) => {
+            const data = req.body
+            const result = await ServiceCollection.insertOne(data)
             console.log(result)
             res.send(result)
-            
+
         })
 
 
@@ -195,6 +195,33 @@ async function run() {
                 }
             }
             const result = await OrderCollection.updateOne(filter, updatedoc, option)
+            res.send(result)
+        })
+
+        app.get('/order', async (req, res) => {
+            const querry = {}
+            const cursor = OrderCollection.find(querry)
+            const result = await cursor.toArray()
+            res.send(result)
+        })
+        app.put('/shift/:_id', async (req, res) => {
+            const id = req.params._id
+            
+            const filter = { _id:ObjectId(id) }
+            const option={upsert:true}
+            const updatedoc = {
+                $set: {
+                    shift:true
+                }
+            }
+            const result= await OrderCollection.updateOne(filter,updatedoc,option)
+            console.log(result)
+            res.send(result)
+        })
+        app.get('/AllShift',async(req,res)=>{
+            const querry ={shift:true}
+            const cursor= OrderCollection.find(querry)
+            const result= await cursor.toArray()
             res.send(result)
         })
         app.get('/product', async (req, res) => {
@@ -239,7 +266,7 @@ async function run() {
         })
         app.get('/profile/:email', async (req, res) => {
             const email = req.params.email
-            console.log(email)
+            console.log("profile",email)
             // res.send("connected")
             const querry = { email }
             const cursor = FirebaseUserCollection.find(querry)
