@@ -15,7 +15,7 @@ const uri = `mongodb+srv://${process.env.DB_user}:${process.env.DB_Pass}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 async function run() {
     try {
-        await client.connect()
+    client.connect()
         const FirebaseUserCollection = client.db('FinalProject').collection('FirebaseUserCollection')
         const FirebaseloginStorageCollection = client.db('FinalProject').collection('FirebaseloginStorage')
         const ServiceCollection = client.db('FinalProject').collection('Service')
